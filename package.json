@@ -1,5 +1,5 @@
 {
-  "name": "ProjetBocal",
+  "name": "projetBocal",
   "version": "1.0.0",
   "description": "Un site eJS.",
   "main": "server.js",
@@ -26,6 +26,7 @@
     "express-ejs-layouts": "^2.5.1",
     "express-flash": "^0.0.2",
     "express-session": "^1.17.2",
+    "lodash": "^4.17.21",
     "passport": "^0.5.2",
     "passport-local": "^1.0.0"
   },

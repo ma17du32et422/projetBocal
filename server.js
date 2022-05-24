@@ -14,6 +14,7 @@ const bcrypt = require("bcrypt")
 var bodyParser = require('body-parser');
 app.use(bodyParser.json());
 
+
 app.use(expressLayouts);
 app.set('views', `${__dirname}/views`);
 app.set('view engine', 'ejs');
@@ -24,7 +25,8 @@ app.use(require('express-session')({ secret: 'qc libre', resave: true, saveUnini
 app.use(passport.initialize())
 app.use(passport.session())
 
-const initializePassport = require("../ProjetBocal/passport-config")
+const initializePassport = require("../ProjetBocal/passport-config");
+const { unset } = require('lodash');
 initializePassport(
   passport, 
   username => users.find(user => user.username === username),
@@ -56,6 +58,8 @@ app.post("/register", async (req, res, next) => {
 
  
   var output = "heheheha"
+  var listeAvis = []
+
   app.get('/portail', (req, res, next) => {
     res.render('portail', { page: 'portail', matricule:output });
   });
@@ -78,16 +82,46 @@ app.post("/register", async (req, res, next) => {
       res.redirect("/portail")
     }
       //Ajouter avis
-    
+      var avis = req.body.avis
+    if (avis != undefined) {
       const index = users.findIndex(object => {
-        return object.username === req.body.username;
-      }); // 👉️ 1
+        return object.username === u;
+      });
       
       if (index !== -1) {
-        users[index].avis = req.body.avis
+        users[index].avis = avis
       }
-      console.log(req.body.avis)
+      if (avis != "") {
+        d = new Date()
+      listeAvis.push(avis)
+      console.log(avis)
+      console.log(listeAvis)
+    }
+    }
+
+      // Supprimer avis
+      var deleteAvis = req.body.deleteAvis
+    if (deleteAvis != undefined) {
+      const index = users.findIndex(object => {
+        return object.username === u;
+      });
+      
+      /*if (index !== -1) {
+        users[index].avis = "Récemment supprimé"
+      }*/
+      if (deleteAvis != "") {
+      
+        let index = listeAvis.indexOf(deleteAvis);
+        console.log(listeAvis[1])
+        console.log(listeAvis.indexOf(deleteAvis))
+        listeAvis.splice(index, 1);
+      
       console.log(users)
+      console.log(listeAvis)
+    }
+    // delete listeAvis[1]
+    }
+    
   })
   
 
